@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI Study Assistant – Project Portfolio</title>
+<style>
+:root{--bg:#070b1a;--bg2:#0c1226;--glass:rgba(255,255,255,.05);--line:rgba(148,163,255,.18);--tx:#e8ecfa;--mu:#a3acd0;--bl:#3b82f6;--vi:#8b5cf6;--grad:linear-gradient(120deg,#3b82f6,#8b5cf6);--r:18px;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:76px;background:var(--bg)}
+body{margin:0;background:radial-gradient(900px 500px at 85% -5%,rgba(139,92,246,.22),transparent 60%),radial-gradient(800px 500px at 0% 10%,rgba(59,130,246,.18),transparent 60%),var(--bg);color:var(--tx);font:16px/1.65 "Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid #93b4ff;outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+section{padding:84px 0}
+h1,h2,h3{line-height:1.15;letter-spacing:-.02em;margin:0 0 .5em}
+h1{font-size:clamp(2.6rem,6vw,4.4rem);font-weight:800}
+h2{font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:750}
+h3{font-size:1.15rem}
+p{margin:0 0 1em;color:var(--mu);max-width:68ch}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:1.05rem;color:var(--mu);max-width:60ch;margin-bottom:38px}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:24px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 50px -24px rgba(0,0,0,.7)}
+.grid{display:grid;gap:18px}.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.badge{display:inline-block;padding:4px 12px;border:1px solid var(--line);border-radius:99px;font-size:.82rem;color:#c9d3ff;background:rgba(59,130,246,.1)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:12px;font:600 .98rem inherit;border:1px solid var(--line);color:var(--tx);background:var(--glass);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.pri{background:var(--grad);border-color:transparent;box-shadow:0 10px 30px -10px rgba(99,102,241,.8)}
+/* nav */
+header{position:fixed;inset:0 0 auto 0;z-index:50;padding-top:env(safe-area-inset-top,0px);background:rgba(7,11,26,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;letter-spacing:-.02em}
+.links{display:flex;gap:22px;font-size:.92rem;color:var(--mu)}
+.links a:hover{color:#fff}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--tx);border-radius:10px;width:44px;height:40px;font-size:1.2rem;cursor:pointer}
+/* hero */
+.hero{padding-top:128px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center}
+.hero .tagline{font-size:1.3rem;color:#c9d3ff;margin-bottom:14px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0}
+.ident{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;color:var(--mu);padding:16px 18px}
+.ident b{color:var(--tx);font-weight:600}
+.load{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}}
+/* mockup */
+.mock{padding:0;overflow:hidden}
+.bar{display:flex;gap:7px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-size:.78rem;color:var(--mu)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#2a3358}
+.mbody{padding:18px}
+.mbody label{font-size:.8rem;color:var(--mu)}
+.mbody input{width:100%;margin:6px 0 14px;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.3);color:var(--tx);font:inherit}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.modes button{padding:10px 6px;border-radius:10px;border:1px solid var(--line);background:var(--glass);color:var(--mu);font:600 .8rem inherit;cursor:pointer}
+.modes button[aria-pressed=true]{background:rgba(59,130,246,.22);border-color:#5b8cff;color:#fff}
+.out{min-height:118px;padding:12px 14px;border-radius:10px;background:rgba(0,0,0,.38);border:1px solid var(--line);font:.82rem/1.55 ui-monospace,Consolas,monospace;color:#cfd8ff}
+.mfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;font-size:.75rem;color:var(--mu)}
+.mfoot .btn{padding:9px 16px;font-size:.85rem}
+/* feature / steps */
+.ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;margin-bottom:16px;font-size:1.3rem;background:var(--grad)}
+.fc{cursor:pointer;transition:transform .25s,border-color .25s}
+.fc:hover,.fc.open{transform:translateY(-4px);border-color:#6d8dff}
+.fc .more{max-height:0;overflow:hidden;transition:max-height .35s;font-size:.9rem;color:var(--mu)}
+.fc.open .more{max-height:180px;margin-top:10px}
+.fc:nth-child(2) .ico{background:linear-gradient(120deg,#8b5cf6,#d946ef)}.fc:nth-child(3) .ico{background:linear-gradient(120deg,#06b6d4,#3b82f6)}
+.note{margin-top:22px;border-color:rgba(139,92,246,.5);background:rgba(139,92,246,.09)}
+.steps{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.steps li{counter-increment:s;position:relative;padding:22px 18px;border:1px solid var(--line);border-radius:var(--r);background:var(--glass);font-size:.93rem}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:32px;height:32px;margin-bottom:12px;border-radius:50%;background:var(--grad);font-weight:700}
+.steps b{display:block;margin-bottom:4px}.steps span{color:var(--mu);font-size:.85rem}
+/* tech */
+.tech{text-align:center;padding:22px 12px}.tech .ico{margin:0 auto 12px}.tech small{color:var(--mu)}
+ul.tick{list-style:none;padding:0;margin:0}ul.tick li{padding:6px 0 6px 26px;position:relative;color:var(--mu)}
+ul.tick li::before{content:"✓";position:absolute;left:0;color:#7aa2ff;font-weight:700}
+ol.dev{margin:0;padding-left:20px;color:var(--mu)}ol.dev li{padding:3px 0}
+/* results */
+.score{text-align:center;display:grid;place-items:center;gap:6px}
+.ring{position:relative;width:170px;height:170px}.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:2.6rem;letter-spacing:-.03em}
+.res{display:grid;gap:14px}
+.res .card{padding:18px 22px}.res h3{margin-bottom:4px}.res p{margin:0}
+/* gallery / docs */
+.ph{aspect-ratio:16/10;border:2px dashed rgba(148,163,255,.4);border-radius:14px;display:grid;place-items:center;text-align:center;padding:16px;color:var(--mu);font-size:.88rem;background:repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 12px,transparent 12px 24px)}
+.ph b{display:block;color:#c9d3ff;margin-bottom:4px}
+figure{margin:0}figcaption{margin-top:10px;font-weight:600;font-size:.95rem}
+figure img{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+.doc{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.doc .btn{margin-top:auto;padding:10px 18px}
+.slides{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:18px}
+.slides div{padding:12px;border:1px solid var(--line);border-radius:12px;font-size:.82rem;background:rgba(0,0,0,.25);color:var(--mu)}.slides b{color:#c9d3ff}
+.future li{opacity:.95}
+.tag{font-size:.74rem;padding:2px 9px;border-radius:99px;background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.5);color:#d9c9ff;margin-left:6px}
+footer{border-top:1px solid var(--line);padding:44px 0 52px;background:var(--bg2);font-size:.9rem;color:var(--mu)}
+footer .wrap{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+footer a:hover{color:#fff}footer p{font-size:.9rem;margin:0 0 4px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:#1b2447;border:1px solid #5b8cff;padding:12px 20px;border-radius:12px;font-size:.9rem;transition:.3s;z-index:99;pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:#0a1022;border-bottom:1px solid var(--line);padding:8px 22px 14px}.links.open{display:flex}.links a{padding:12px 0}.burger{display:block}section{padding:64px 0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header><div class="wrap"><nav aria-label="Main">
+  <a class="logo" href="#top"><span class="grad">AI</span> Study Assistant</a>
+  <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  <div class="links" id="links">
+    <a href="#about">About</a><a href="#features">Features</a><a href="#how">How it works</a><a href="#tech">Technologies</a><a href="#development">Development</a><a href="#results">Results</a><a href="#gallery">Gallery</a><a href="#documentation">Documentation</a><a href="#presentation">Presentation</a>
+  </div></nav></div></header>
+
+<main id="top">
+<!-- 1. HERO -->
+<section class="hero"><div class="wrap">
+  <div class="load">
+    <span class="badge">First-Year Engineering Edition · Mini Project</span>
+    <h1 style="margin-top:18px"><span class="grad">AI Study</span> Assistant</h1>
+    <p class="tagline">Your Smarter Companion for Engineering Studies</p>
+    <p>A web-based prompt-generation tool. Enter an academic topic, choose a study mode, and get a ready-to-use prompt to paste into Google Gemini for an explanation, revision notes, or a practice quiz.</p>
+    <div class="cta"><a class="btn pri" href="#about">Explore Project</a><a class="btn" href="#documentation">View Documentation</a></div>
+    <div class="card ident">
+      <span>Student</span><b>Sujalkumar Rajubhai Babar</b>
+      <span>KU ID</span><b>KU202608848</b>
+      <span>Enrollment No.</span><b>2000016939</b>
+      <span>Programme</span><b>B.Tech – Electronics and Communication Engineering</b>
+      <span>Course</span><b>Fundamentals of Artificial Intelligence</b>
+      <span>Institute</span><b>Unitedworld Institute of Technology, Karnavati University</b>
+      <span>Academic year</span><b>2026–2027</b>
+    </div>
+  </div>
+  <!-- Illustrative mockup (built with HTML/CSS). It is NOT a screenshot of the real application. Real screenshots go in the Gallery. -->
+  <div class="card mock load" style="animation-delay:.15s" aria-label="Illustrative mockup of the prompt generator">
+    <div class="bar"><i></i><i></i><i></i><span style="margin-left:8px">Illustrative mockup · not the actual app</span></div>
+    <div class="mbody">
+      <label for="topic">Academic topic</label>
+      <input id="topic" value="Ohm’s Law" maxlength="60" autocomplete="off">
+      <div class="modes" role="group" aria-label="Study mode">
+        <button data-m="explain" aria-pressed="true">Explain Topic</button>
+        <button data-m="notes" aria-pressed="false">Revision Notes</button>
+        <button data-m="quiz" aria-pressed="false">Create Quiz</button>
+      </div>
+      <div class="out" id="out" aria-live="polite"></div>
+      <div class="mfoot"><span>Copy this prompt, then paste it into Google Gemini.</span><button class="btn pri" id="copy">Copy Prompt</button></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 2. ABOUT -->
+<section id="about"><div class="wrap">
+  <h2>About the project</h2>
+  <p class="sub">First-year engineering students need a quick, simple way to understand new topics, prepare revision notes, and practise questions before examinations. Writing a clear prompt for an AI tool every time is time-consuming.</p>
+  <div class="grid g3">
+    <div class="card"><h3>The problem</h3><p>Students need an organised way to learn, revise and practise, but crafting an effective AI prompt each time takes effort.</p></div>
+    <div class="card"><h3>Objective</h3><p>To develop an AI-based Study Assistant that helps first-year engineering students understand academic topics, generate revision notes, and practise through interactive quizzes.</p></div>
+    <div class="card"><h3>Expected outcome</h3><p>A functional web application that helps students prepare academic content through AI-generated explanations, revision notes, and quizzes.</p></div>
+  </div>
+</div></section>
+
+<!-- 3. FEATURES -->
+<section id="features"><div class="wrap">
+  <h2>Three study modes</h2>
+  <p class="sub">Select a card to read more. Each mode generates a prompt tailored to the topic you enter.</p>
+  <div class="grid g3">
+    <div class="card fc" tabindex="0" role="button" aria-expanded="false"><div class="ico">💡</div><h3>Explain Topic</h3><p>Generates a prompt for a detailed academic explanation.</p><div class="more">The prompt asks Gemini to act as an experienced first-year engineering professor and explain the topic clearly and thoroughly with examples.</div></div>
+    <div class="card fc" tabindex="0" role="button" aria-expanded="false"><div class="ico">📝</div><h3>Generate Revision Notes</h3><p>Generates a prompt for concise, exam-oriented notes.</p><div class="more">The prompt asks for concise, well-organised revision notes tailored to a first-year student preparing for semester exams.</div></div>
+    <div class="card fc" tabindex="0" role="button" aria-expanded="false"><div class="ico">🧠</div><h3>Create Quiz</h3><p>Generates a prompt for a five-question practice quiz.</p><div class="more">The prompt asks Gemini to design a 5-question practice quiz at a first-year undergraduate engineering level.</div></div>
+  </div>
+  <div class="card note"><h3>The Copy Prompt workflow</h3>
+    <p style="margin:0">This is a <b style="color:#fff">prompt-generation application</b>. It prepares the prompt; the student uses the <b style="color:#fff">Copy Prompt</b> button and submits it to Google Gemini, which produces the response. The application has <b style="color:#fff">no direct AI API integration</b> and needs <b style="color:#fff">no API key</b>.</p></div>
+</div></section>
+
+<!-- 4. HOW IT WORKS -->
+<section id="how"><div class="wrap">
+  <h2>How it works</h2><p class="sub">Six steps from topic to AI-generated study material.</p>
+  <ol class="steps">
+    <li><b>Enter a topic</b><span>Type an academic topic.</span></li>
+    <li><b>Select a mode</b><span>Explain, revise or quiz.</span></li>
+    <li><b>Generate a prompt</b><span>A suitable prompt is prepared.</span></li>
+    <li><b>Copy the prompt</b><span>Use the Copy Prompt button.</span></li>
+    <li><b>Submit to Gemini</b><span>Paste it into Google Gemini.</span></li>
+    <li><b>Get the response</b><span>Gemini returns the AI-generated answer.</span></li>
+  </ol>
+</div></section>
+
+<!-- 5. TECHNOLOGIES -->
+<section id="tech"><div class="wrap">
+  <h2>Technologies used</h2><p class="sub">Tools and platforms listed in Practical 10.A.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+    <div class="card tech"><div class="ico">✦</div><b>Google Gemini</b><br><small>Development and AI responses</small></div>
+    <div class="card tech"><div class="ico">🖼</div><b>Gemini Canvas</b><br><small>Creating the web app</small></div>
+    <div class="card tech"><div class="ico">&lt;/&gt;</div><b>HTML</b><br><small>Application structure</small></div>
+    <div class="card tech"><div class="ico">🎨</div><b>CSS</b><br><small>Styling</small></div>
+    <div class="card tech"><div class="ico">⚡</div><b>JavaScript</b><br><small>Functionality</small></div>
+  </div>
+  <p style="margin-top:14px"><small>A web browser is used to run and test the exported HTML application.</small></p>
+</div></section>
+
+<!-- 6. DEVELOPMENT -->
+<section id="development"><div class="wrap">
+  <h2>Project development</h2><p class="sub">Practical 10.A – Mini Project 1: AI-Based Application Development.</p>
+  <div class="grid g3">
+    <div class="card"><h3>Requirements</h3><ul class="tick"><li>Simple, user-friendly web interface</li><li>Input field for academic topics</li><li>Three study modes</li><li>Automatic prompt generation</li><li>Working Copy Prompt feature</li><li>Responsive, organised interface</li><li>No API key requirement</li></ul></div>
+    <div class="card"><h3>Development approach</h3><ol class="dev"><li>Identified the need for a simple academic assistant</li><li>Defined objectives, requirements and outcomes</li><li>Generated the application in Gemini Canvas</li><li>Built the topic input and three study modes</li><li>Implemented the Copy Prompt feature</li><li>Exported the application as an HTML file</li><li>Opened and tested it in a web browser</li></ol></div>
+    <div class="card"><h3>Testing approach</h3><p>Ohm’s Law was used as the demonstration topic for all three modes. For each mode the generated prompt was copied with Copy Prompt, submitted to Google Gemini, and Gemini’s response was observed and recorded.</p></div>
+  </div>
+</div></section>
+
+<!-- 7. RESULTS -->
+<section id="results"><div class="wrap">
+  <h2>Testing and results</h2><p class="sub">Observations recorded in Practical 10.A using Ohm’s Law.</p>
+  <div class="grid g2" style="align-items:center">
+    <div class="res">
+      <div class="card"><h3>Explain Topic</h3><p>Gemini generated a structured explanation of Ohm’s Law with an intuitive overview, concepts such as voltage, current and resistance, and relevant equations.</p></div>
+      <div class="card"><h3>Revision Notes</h3><p>Gemini generated organised notes with core definitions, important concepts and an essential formula sheet.</p></div>
+      <div class="card"><h3>Create Quiz</h3><p>Gemini generated an interactive five-question quiz with multiple-choice questions and explanations, followed by a performance summary of strengths and areas to improve.</p></div>
+    </div>
+    <div class="card score">
+      <span class="badge">Final quiz score</span>
+      <div class="ring"><svg width="170" height="170" viewBox="0 0 170 170"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><circle cx="85" cy="85" r="72" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="12"/><circle id="arc" cx="85" cy="85" r="72" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="452.4" stroke-dashoffset="452.4" style="transition:stroke-dashoffset 1.4s ease"/></svg><b>3/5</b></div>
+      <p style="margin:0;text-align:center">3 of 5 answers correct on the Ohm’s Law quiz.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 8. GALLERY -->
+<section id="gallery"><div class="wrap">
+  <h2>Project gallery</h2>
+  <p class="sub">Screenshots from Practical 10.A. To add yours, put the image file path in the SHOTS list in the script at the bottom of this file.</p>
+  <div class="grid g2" id="shots"></div>
+</div></section>
+
+<!-- 9. DOCUMENTATION -->
+<section id="documentation"><div class="wrap">
+  <h2>Documentation</h2><p class="sub">Project reports and the application file. Add your links in the DOCS list in the script at the bottom of this file.</p>
+  <div class="grid g3" id="docs"></div>
+</div></section>
+
+<!-- 10. PRESENTATION -->
+<section id="presentation"><div class="wrap">
+  <h2>Presentation</h2>
+  <p class="sub">The project presentation follows the problem through to the final outcome, using short text, application screenshots and the content Gemini produced in Practical 10.A. The planned structure from Practical 10.B is shown below.</p>
+  <div class="grid g2" style="align-items:start">
+    <figure id="slideshot"></figure>
+    <div class="slides" id="slides" style="margin-top:0"></div>
+  </div>
+</div></section>
+
+<!-- 11. FUTURE SCOPE -->
+<section id="future"><div class="wrap">
+  <h2>Future scope <span class="tag">Future improvements</span></h2>
+  <p class="sub">These are possible extensions. They are not features of the current application.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+    <div class="card"><h3>More subjects</h3><p>Additional academic topics and subjects.</p></div>
+    <div class="card"><h3>More study modes</h3><p>Further ways of preparing study material.</p></div>
+    <div class="card"><h3>Better quizzes</h3><p>Improved quiz features.</p></div>
+    <div class="card"><h3>Progress tracking</h3><p>Following a student’s learning over time.</p></div>
+  </div>
+</div></section>
+
+<!-- 12. CONCLUSION -->
+<section id="conclusion"><div class="wrap">
+  <h2>Conclusion</h2>
+  <div class="card"><p style="max-width:80ch;margin:0">The AI Study Assistant shows how AI tools and prompt engineering can be used to build a useful educational application. Developed with Google Gemini Canvas and exported as an HTML file, it gives first-year engineering students a simple way to understand concepts, prepare revision notes and test themselves through quizzes. Testing with Ohm’s Law confirmed that all three study modes work, with Gemini producing an explanation, revision notes and an interactive quiz that scored 3/5.</p></div>
+</div></section>
+</main>
+
+<!-- 13. FOOTER -->
+<footer><div class="wrap">
+  <div><b style="color:#fff">AI Study Assistant – First-Year Engineering Edition</b><p>Sujalkumar Rajubhai Babar · KU202608848</p><p>Fundamentals of Artificial Intelligence (26UTU01003)</p><p>Unitedworld Institute of Technology, Karnavati University</p><p>Academic Year 2026–2027</p></div>
+  <div><b style="color:#fff">Navigate</b><p><a href="#about">About</a> · <a href="#features">Features</a> · <a href="#how">How it works</a></p><p><a href="#development">Development</a> · <a href="#results">Results</a> · <a href="#gallery">Gallery</a></p><p><a href="#documentation">Documentation</a> · <a href="#presentation">Presentation</a> · <a href="#top">Back to top</a></p></div>
+</div></footer>
+<div id="toast" role="status"></div>
+
+<script>
+/* ============ EDIT HERE ============
+   SHOTS: put the path of your screenshot (e.g. "images/home.png") between the quotes.
+   DOCS : put your PDF / file link (e.g. "docs/practical-10A.pdf" or a Drive link) in href.
+   Leave "" to keep the placeholder. */
+const SHOTS = [
+  {src:"assets/1.png", label:"AI Study Assistant interface", ph:"assets/1.png"},
+  {src:"assets/3.png", label:"Explain Topic output (Gemini)", ph:"assets/3.png"},
+  {src:"assets/4.png", label:"Revision Notes output (Gemini)", ph:"assets/4.png"},
+  {src:"assets/5.png", label:"Quiz interface and result (3/5)", ph:"assets/5.png"}
+];
+const SLIDE_SHOT = {src:"", ph:"[INSERT PRESENTATION SLIDES SCREENSHOT HERE]"};
+const DOCS = [
+  {t:"Practical 10.A", d:"AI-Based Application Development", href:"docs/10A", ph:"[INSERT PRACTICAL 10.A PDF LINK HERE]"},
+  {t:"Practical 10.B", d:"AI Portfolio and Presentation", href:"docs/10B", ph:"[INSERT PRACTICAL 10.B PDF LINK HERE]"},
+  {t:"AI Study Assistant (HTML)", d:"The exported application file", href:"file:///C:/Users/alka7/OneDrive/Desktop/HELL!!!!/FAI/Practical%20stuff/Portfolio/app/ai_study_assistant.html", ph:"[INSERT HTML APPLICATION LINK HERE]"}
+];
+/* Published portfolio URL: [INSERT PUBLISHED PORTFOLIO URL HERE] (record it in your Practical 10.B report) */
+/* ============ END EDIT ============ */
+
+const $=(s,e=document)=>e.querySelector(s), $$=(s,e=document)=>[...e.querySelectorAll(s)];
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),2600)}
+function shot(c){return c.src?`<img src="${c.src}" alt="${c.label||""}">`:`<div class="ph"><div><b>Placeholder</b>${c.ph}</div></div>`}
+
+/* mobile nav */
+const burger=$("#burger"),links=$("#links");
+burger.onclick=()=>{const o=links.classList.toggle("open");burger.setAttribute("aria-expanded",o)};
+$$("a",links).forEach(a=>a.onclick=()=>{links.classList.remove("open");burger.setAttribute("aria-expanded","false")});
+
+/* gallery, docs, presentation */
+$("#shots").innerHTML=SHOTS.map(s=>`<figure>${shot(s)}<figcaption>${s.label}</figcaption></figure>`).join("");
+$("#slideshot").innerHTML=shot({src:SLIDE_SHOT.src,label:"Presentation slides",ph:SLIDE_SHOT.ph})+"<figcaption>Presentation slide preview</figcaption>";
+$("#docs").innerHTML=DOCS.map((d,i)=>`<div class="card doc"><div class="ico">📄</div><h3>${d.t}</h3><p>${d.d}</p>${d.href?`<a class="btn pri" href="${d.href}" target="_blank" rel="noopener" download>Open / Download</a>`:`<button class="btn" data-i="${i}">Open / Download</button>`}</div>`).join("");
+$$("#docs button").forEach(b=>b.onclick=()=>toast("Link not added yet. Add it in the DOCS list in the code: "+DOCS[b.dataset.i].ph));
+const SL=["Title Slide","Problem Statement","Project Objectives","Proposed Solution","Features and Working","Tools and Technologies","Development Process","Testing and Observations","Results","Conclusion"];
+$("#slides").innerHTML=SL.map((s,i)=>`<div><b>Slide ${i+1}</b><br>${s}</div>`).join("");
+
+/* feature cards */
+$$(".fc").forEach(c=>{const f=()=>{c.classList.toggle("open");c.setAttribute("aria-expanded",c.classList.contains("open"))};c.onclick=f;c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();f()}}});
+
+/* illustrative prompt generator (prompts as recorded in Practical 10.A) */
+let mode="explain";
+const P={
+ explain:t=>`Act as an experienced first-year engineering professor. Explain the topic ‘${t}’ clearly and thoroughly for a first-year undergraduate engineering student.`,
+ notes:t=>`Create concise, well-organized revision notes on ‘${t}’ tailored for a first-year engineering student preparing for semester exams.`,
+ quiz:t=>`Design a 5-question practice quiz on ‘${t}’ at a first-year undergraduate engineering level to help me test my understanding.`};
+const topic=$("#topic"),out=$("#out");
+function gen(){out.textContent=P[mode](topic.value.trim()||"your topic")}
+topic.oninput=gen;
+$$(".modes button").forEach(b=>b.onclick=()=>{mode=b.dataset.m;$$(".modes button").forEach(x=>x.setAttribute("aria-pressed",x===b));gen()});
+$("#copy").onclick=async()=>{const txt=out.textContent;
+ try{await navigator.clipboard.writeText(txt)}catch(e){const a=document.createElement("textarea");a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(_){}a.remove()}
+ toast("Prompt copied. Paste it into Google Gemini.")};
+gen();
+
+/* score ring animates once when visible */
+const arc=$("#arc");
+if("IntersectionObserver" in window){new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){arc.style.strokeDashoffset=452.4*(1-3/5);o.disconnect()}},{threshold:.4}).observe(arc)}else arc.style.strokeDashoffset=452.4*.4;
+</script>
+</body>
+</html>
