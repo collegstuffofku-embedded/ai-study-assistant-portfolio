@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Study Assistant — First-Year Engineering</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* Subtle custom scrollbar for prompt and sample containers */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-b border-blue-100 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand / Logo -->
+            <a href="#" class="flex items-center gap-2.5 group focus:outline-none">
+                <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-sm group-hover:bg-blue-700 transition-colors">
+                    <!-- Engineering / Gear & Book Icon -->
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-bold text-lg tracking-tight text-slate-900 block leading-none">AI Study Assistant</span>
+                    <span class="text-xs font-medium text-blue-600 block mt-0.5">First-Year Engineering Edition</span>
+                </div>
+            </a>
+
+            <!-- Easy Navigation Links -->
+            <nav class="flex items-center gap-1 sm:gap-2" aria-label="Primary Navigation">
+                <a href="#prompt-builder" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                    Prompt Builder
+                </a>
+                <a href="#how-it-works" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                    Sample &amp; Guide
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-10">
+
+        <!-- Hero / Intro Banner -->
+        <section class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 sm:p-8 text-white shadow-md">
+            <div class="max-w-3xl">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/40 text-blue-50 border border-blue-400/30 mb-3">
+                    No API Key Required &bull; Prompt Engineering Tool
+                </span>
+                <h1 class="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
+                    Master First-Year Engineering Concepts Faster
+                </h1>
+                <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+                    Enter any topic from Calculus, Physics, Basic Electrical Engineering, or Programming. Choose a study mode to generate an engineered prompt ready to paste directly into Gemini.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 1 & 2 & 3 & 4: Interactive Prompt Builder -->
+        <section id="prompt-builder" class="bg-white rounded-2xl border border-blue-100 shadow-sm p-6 sm:p-8 space-y-7">
+            <div class="border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900">1. Build Your Study Prompt</h2>
+                <p class="text-sm text-slate-500 mt-1">Type your syllabus topic and click one of the three study modes below.</p>
+            </div>
+
+            <!-- Topic Input Box -->
+            <div class="space-y-3">
+                <label for="topicInput" class="block text-sm font-semibold text-slate-700">
+                    Academic Topic
+                </label>
+                <div class="relative">
+                    <input
+                        type="text"
+                        id="topicInput"
+                        placeholder="e.g., Kirchhoff's Voltage Law, Taylor Series, Thermodynamics First Law, Pointers in C..."
+                        class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-4 py-3.5 text-slate-900 placeholder-slate-400 text-sm sm:text-base focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none transition-all"
+                    />
+                    <button
+                        type="button"
+                        id="clearTopicBtn"
+                        title="Clear topic"
+                        class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Quick Sample Topic Chips for First-Year Engineering -->
+                <div class="flex flex-wrap items-center gap-2 pt-1">
+                    <span class="text-xs font-medium text-slate-500">Quick try:</span>
+                    <button type="button" data-topic="Kirchhoff's Current and Voltage Laws" class="sample-chip text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium px-2.5 py-1 rounded-lg transition-colors">
+                        Kirchhoff's Laws
+                    </button>
+                    <button type="button" data-topic="Eigenvalues and Eigenvectors" class="sample-chip text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium px-2.5 py-1 rounded-lg transition-colors">
+                        Eigenvalues &amp; Eigenvectors
+                    </button>
+                    <button type="button" data-topic="Carnot Cycle & Second Law of Thermodynamics" class="sample-chip text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium px-2.5 py-1 rounded-lg transition-colors">
+                        Carnot Cycle
+                    </button>
+                    <button type="button" data-topic="Arrays and Pointers in C Programming" class="sample-chip text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium px-2.5 py-1 rounded-lg transition-colors">
+                        Pointers in C
+                    </button>
+                </div>
+
+                <!-- Inline Validation Feedback Banner -->
+                <p id="validationNotice" class="hidden text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                    Please enter an academic topic above (or pick one of the quick sample topics) before generating a prompt.
+                </p>
+            </div>
+
+            <!-- Three Study Options -->
+            <div class="space-y-3">
+                <span class="block text-sm font-semibold text-slate-700">2. Select Study Mode</span>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5" role="group" aria-label="Study Mode Options">
+                    <!-- Option 1: Explain Topic -->
+                    <button
+                        type="button"
+                        data-mode="explain"
+                        class="mode-btn group text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition-all focus:outline-none focus:ring-2 focus:ring-blue-600/30"
+                    >
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="w-9 h-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                </svg>
+                            </span>
+                            <span class="mode-badge hidden text-xs font-semibold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">Selected</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base">Explain Topic</h3>
+                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                            Step-by-step intuition, core formulas, real-world engineering applications, and a solved example.
+                        </p>
+                    </button>
+
+                    <!-- Option 2: Generate Revision Notes -->
+                    <button
+                        type="button"
+                        data-mode="notes"
+                        class="mode-btn group text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition-all focus:outline-none focus:ring-2 focus:ring-blue-600/30"
+                    >
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="w-9 h-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </span>
+                            <span class="mode-badge hidden text-xs font-semibold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">Selected</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base">Generate Revision Notes</h3>
+                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                            Exam-ready cheat sheet with key definitions, formula sheet, derivations outline, and common pitfalls.
+                        </p>
+                    </button>
+
+                    <!-- Option 3: Create Quiz -->
+                    <button
+                        type="button"
+                        data-mode="quiz"
+                        class="mode-btn group text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition-all focus:outline-none focus:ring-2 focus:ring-blue-600/30"
+                    >
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="w-9 h-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                                </svg>
+                            </span>
+                            <span class="mode-badge hidden text-xs font-semibold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">Selected</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base">Create Quiz</h3>
+                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                            5 progressive practice questions (conceptual + numerical) with a hidden answer key at the bottom.
+                        </p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Generated Prompt Output Box -->
+            <div class="pt-2 space-y-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <h3 class="text-sm font-semibold text-slate-700">3. Generated Gemini Prompt</h3>
+                        <p id="promptStatusText" class="text-xs text-slate-500">Select a study mode above to generate your structured prompt.</p>
+                    </div>
+
+                    <!-- Copy Prompt Button & Open Gemini Link -->
+                    <div class="flex items-center gap-2">
+                        <button
+                            type="button"
+                            id="copyPromptBtn"
+                            disabled
+                            class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-600/40"
+                        >
+                            <svg id="copyIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            <svg id="checkIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span id="copyBtnLabel">Copy Prompt</span>
+                        </button>
+
+                        <a
+                            href="https://gemini.google.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors"
+                        >
+                            <span>Open Gemini</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Copy Toast Notification -->
+                <div id="copyFeedbackBanner" class="hidden flex items-center justify-between bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-medium px-4 py-2.5 rounded-xl">
+                    <span>Prompt copied to clipboard! Paste it into Gemini to receive your study material.</span>
+                </div>
+
+                <!-- Read-only / Editable Prompt Display Area -->
+                <div class="relative">
+                    <textarea
+                        id="generatedPromptOutput"
+                        rows="9"
+                        readonly
+                        placeholder="Your structured prompt will appear here once you enter a topic and choose Explain Topic, Generate Revision Notes, or Create Quiz..."
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm font-mono text-slate-800 leading-relaxed focus:outline-none focus:border-blue-500 resize-y"
+                    ></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Sample Output & How It Works Section -->
+        <section id="how-it-works" class="bg-white rounded-2xl border border-blue-100 shadow-sm p-6 sm:p-8 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                <div>
+                    <span class="inline-block text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">
+                        Static Illustration &bull; Workflow Guide
+                    </span>
+                    <h2 class="text-xl font-bold text-slate-900">How This Application Works &amp; Sample Output</h2>
+                </div>
+                <span class="self-start sm:self-center text-xs font-medium bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full border border-slate-200">
+                    Static Example (Not Live AI)
+                </span>
+            </div>
+
+            <!-- 3-Step Workflow Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-100">
+                    <div class="w-7 h-7 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center mb-2.5">1</div>
+                    <h3 class="font-bold text-slate-900 text-sm">Enter Syllabus Topic</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                        Type any concept from your first-year engineering coursework into the topic box.
+                    </p>
+                </div>
+                <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-100">
+                    <div class="w-7 h-7 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center mb-2.5">2</div>
+                    <h3 class="font-bold text-slate-900 text-sm">Generate Structured Prompt</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                        Click a study mode. The app wraps your topic in a clear, university-level prompt template locally in your browser.
+                    </p>
+                </div>
+                <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-100">
+                    <div class="w-7 h-7 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center mb-2.5">3</div>
+                    <h3 class="font-bold text-slate-900 text-sm">Copy &amp; Paste into Gemini</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                        Use the <strong>Copy Prompt</strong> button and submit it to Gemini to get a tailored explanation, notes, or quiz.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Clearly Labeled Static Sample Output Preview -->
+            <div class="rounded-xl border border-slate-200 bg-slate-50/80 overflow-hidden">
+                <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                        <span class="text-xs font-bold text-slate-800 uppercase tracking-wide">
+                            Sample Output Preview (Static Example for "Ohm's Law &amp; Power Dissipation")
+                        </span>
+                    </div>
+                    <span class="text-xs text-slate-500 italic">
+                        Illustrative sample showing what Gemini produces when you paste the prompt
+                    </span>
+                </div>
+
+                <div class="p-5 sm:p-6 space-y-4 text-sm text-slate-700 leading-relaxed">
+                    <div class="bg-blue-50/80 border-l-4 border-blue-600 p-3.5 rounded-r-lg text-xs text-blue-900">
+                        <strong>Note:</strong> This box is a pre-written static example to demonstrate the structure of a response you will receive after pasting your generated prompt into Gemini. No live AI call is made on this page.
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-base mb-1">1. Core Intuition</h4>
+                        <p>
+                            Ohm's Law states that the electric current (<code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-900">I</code>) flowing through a metallic conductor is directly proportional to the potential difference (<code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-900">V</code>) across its ends, provided temperature and physical conditions remain constant.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-base mb-1">2. Fundamental Equations</h4>
+                        <ul class="list-disc list-inside space-y-1 text-slate-700">
+                            <li><strong>Voltage–Current Relation:</strong> <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-900">V = I &times; R</code> (Volts, V)</li>
+                            <li><strong>Electrical Power Dissipated:</strong> <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-900">P = V &times; I = I&sup2;R = V&sup2;/R</code> (Watts, W)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-base mb-1">3. Quick Solved Example</h4>
+                        <p>
+                            <strong>Problem:</strong> A <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-900">12 V</code> DC source is connected across a <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-900">4 &Omega;</code> resistor. Find the current and power dissipated.<br>
+                            <strong>Solution:</strong> <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-900">I = 12 V / 4 &Omega; = 3 A</code>, and <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-900">P = 12 V &times; 3 A = 36 W</code>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+            <p class="font-medium text-slate-600">AI Study Assistant &mdash; Built for First-Year Engineering Students</p>
+            <p>100% Client-Side Prompt Generator &bull; No API Key Needed</p>
+        </div>
+    </footer>
+
+    <!-- Application JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const topicInput = document.getElementById('topicInput');
+            const clearTopicBtn = document.getElementById('clearTopicBtn');
+            const validationNotice = document.getElementById('validationNotice');
+            const modeButtons = document.querySelectorAll('.mode-btn');
+            const sampleChips = document.querySelectorAll('.sample-chip');
+            const generatedPromptOutput = document.getElementById('generatedPromptOutput');
+            const promptStatusText = document.getElementById('promptStatusText');
+            const copyPromptBtn = document.getElementById('copyPromptBtn');
+            const copyBtnLabel = document.getElementById('copyBtnLabel');
+            const copyIcon = document.getElementById('copyIcon');
+            const checkIcon = document.getElementById('checkIcon');
+            const copyFeedbackBanner = document.getElementById('copyFeedbackBanner');
+
+            // Current application state
+            let selectedMode = null;
+            let copyTimeoutId = null;
+
+            /**
+             * Prompt templates tailored for first-year engineering students.
+             * @param {string} mode - 'explain' | 'notes' | 'quiz'
+             * @param {string} topic - Cleaned academic topic entered by the student
+             * @returns {string} Structured prompt ready for Gemini
+             */
+            function buildStructuredPrompt(mode, topic) {
+                switch (mode) {
+                    case 'explain':
+                        return `Act as an experienced first-year engineering professor. Explain the topic "${topic}" clearly and thoroughly for a first-year undergraduate engineering student.
+
+Please structure your explanation into the following sections:
+1. Intuitive Overview: Explain the core concept in plain language before introducing heavy math.
+2. Key Principles & Governing Equations: List the fundamental formulas, define every variable with standard SI units, and explain the physical meaning.
+3. Step-by-Step Worked Example: Provide one realistic numerical or analytical problem relevant to first-year engineering exams and solve it step-by-step.
+4. Practical Engineering Applications: Give 2 real-world examples of how engineers apply "${topic}".
+5. Common Mistakes to Avoid: Highlight 2 misconceptions students frequently make on this topic.`;
+
+                    case 'notes':
+                        return `Create concise, well-organized revision notes on "${topic}" tailored for a first-year engineering student preparing for semester exams.
+
+Format the revision notes using clear headings and bullet points:
+1. Core Definitions: Short, exam-ready definitions of key terms.
+2. Essential Formula Sheet: All important equations, constants, and conditions/assumptions where they apply.
+3. Key Derivations / Logic Summary: A brief bulleted outline of how the main relationships are derived.
+4. Quick Comparison / Summary Table: Compare related concepts, cases, or laws if applicable.
+5. Last-Minute Exam Checklist: 3–4 critical points to remember right before entering the exam hall.`;
+
+                    case 'quiz':
+                        return `Design a 5-question practice quiz on "${topic}" at a first-year undergraduate engineering level to help me test my understanding.
+
+Include a balanced mix of questions:
+- Questions 1 & 2: Conceptual Multiple-Choice Questions (4 options each: A, B, C, D) testing fundamental principles.
+- Question 3: Short-Answer / Conceptual Reasoning Question ("Why" or "How" engineering scenario).
+- Questions 4 & 5: Numerical / Analytical Problem-Solving Questions requiring calculation with proper SI units.
+
+Important Formatting Rule:
+Present all 5 questions first WITHOUT revealing the answers. Then, provide a clearly separated "Answer Key & Step-by-Step Solutions" section at the very bottom so I can attempt the quiz first.`;
+
+                    default:
+                        return '';
+                }
+            }
+
+            /**
+             * Updates the visual active state of the three mode cards.
+             */
+            function updateModeCardStyles(activeMode) {
+                modeButtons.forEach((btn) => {
+                    const isMatch = btn.dataset.mode === activeMode;
+                    const badge = btn.querySelector('.mode-badge');
+
+                    if (isMatch) {
+                        btn.classList.remove('border-slate-200', 'bg-white');
+                        btn.classList.add('border-blue-600', 'bg-blue-50/70', 'shadow-sm');
+                        if (badge) badge.classList.remove('hidden');
+                    } else {
+                        btn.classList.add('border-slate-200', 'bg-white');
+                        btn.classList.remove('border-blue-600', 'bg-blue-50/70', 'shadow-sm');
+                        if (badge) badge.classList.add('hidden');
+                    }
+                });
+            }
+
+            /**
+             * Generates and renders the prompt based on current topic and mode.
+             */
+            function refreshGeneratedPrompt() {
+                const rawTopic = topicInput.value.trim();
+
+                // Toggle clear button visibility
+                if (rawTopic.length > 0) {
+                    clearTopicBtn.classList.remove('hidden');
+                    validationNotice.classList.add('hidden');
+                } else {
+                    clearTopicBtn.classList.add('hidden');
+                }
+
+                // If no mode has been selected yet, do nothing further
+                if (!selectedMode) {
+                    return;
+                }
+
+                // Validate topic presence when a mode is active
+                if (!rawTopic) {
+                    validationNotice.classList.remove('hidden');
+                    generatedPromptOutput.value = '';
+                    copyPromptBtn.disabled = true;
+                    promptStatusText.textContent = 'Enter a topic above to generate the prompt for your selected mode.';
+                    return;
+                }
+
+                const modeLabels = {
+                    explain: 'Explain Topic',
+                    notes: 'Generate Revision Notes',
+                    quiz: 'Create Quiz'
+                };
+
+                const promptText = buildStructuredPrompt(selectedMode, rawTopic);
+                generatedPromptOutput.value = promptText;
+                copyPromptBtn.disabled = false;
+                promptStatusText.textContent = `Showing "${modeLabels[selectedMode]}" prompt for "${rawTopic}". Ready to copy!`;
+            }
+
+            // Event Listener: Topic input changes (updates prompt live if a mode is already chosen)
+            topicInput.addEventListener('input', () => {
+                refreshGeneratedPrompt();
+            });
+
+            // Event Listener: Clear topic input
+            clearTopicBtn.addEventListener('click', () => {
+                topicInput.value = '';
+                generatedPromptOutput.value = '';
+                copyPromptBtn.disabled = true;
+                clearTopicBtn.classList.add('hidden');
+                validationNotice.classList.add('hidden');
+                promptStatusText.textContent = selectedMode
+                    ? 'Topic cleared. Enter a new topic above to generate a prompt.'
+                    : 'Select a study mode above to generate your structured prompt.';
+                topicInput.focus();
+            });
+
+            // Event Listener: Quick sample topic chips
+            sampleChips.forEach((chip) => {
+                chip.addEventListener('click', () => {
+                    topicInput.value = chip.dataset.topic;
+                    validationNotice.classList.add('hidden');
+                    // Default to 'explain' if student hasn't picked a mode yet
+                    if (!selectedMode) {
+                        selectedMode = 'explain';
+                        updateModeCardStyles(selectedMode);
+                    }
+                    refreshGeneratedPrompt();
+                });
+            });
+
+            // Event Listener: Three Study Mode buttons
+            modeButtons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    selectedMode = btn.dataset.mode;
+                    updateModeCardStyles(selectedMode);
+
+                    const rawTopic = topicInput.value.trim();
+                    if (!rawTopic) {
+                        validationNotice.classList.remove('hidden');
+                        topicInput.focus();
+                        promptStatusText.textContent = 'Enter an academic topic above to complete your prompt.';
+                        return;
+                    }
+
+                    refreshGeneratedPrompt();
+                });
+            });
+
+            // Event Listener: Copy Prompt button (uses execCommand fallback for reliable iframe/browser support)
+            copyPromptBtn.addEventListener('click', () => {
+                const textToCopy = generatedPromptOutput.value;
+                if (!textToCopy) return;
+
+                try {
+                    generatedPromptOutput.select();
+                    generatedPromptOutput.setSelectionRange(0, 99999);
+                    const successful = document.execCommand('copy');
+
+                    // Clear selection highlight for clean UI
+                    window.getSelection()?.removeAllRanges();
+
+                    if (successful) {
+                        showCopiedState();
+                    }
+                } catch (err) {
+                    // Fallback if execCommand fails in restricted contexts
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(textToCopy).then(() => {
+                            showCopiedState();
+                        });
+                    }
+                }
+            });
+
+            /**
+             * Provides clear visual confirmation when the prompt is copied.
+             */
+            function showCopiedState() {
+                copyBtnLabel.textContent = 'Copied!';
+                copyIcon.classList.add('hidden');
+                checkIcon.classList.remove('hidden');
+                copyPromptBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                copyPromptBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+                copyFeedbackBanner.classList.remove('hidden');
+
+                if (copyTimeoutId) {
+                    clearTimeout(copyTimeoutId);
+                }
+
+                copyTimeoutId = setTimeout(() => {
+                    copyBtnLabel.textContent = 'Copy Prompt';
+                    copyIcon.classList.remove('hidden');
+                    checkIcon.classList.add('hidden');
+                    copyPromptBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                    copyPromptBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+                    copyFeedbackBanner.classList.add('hidden');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
